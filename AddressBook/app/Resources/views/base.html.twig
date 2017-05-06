@@ -2,12 +2,58 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Address Book{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />        
+        <link rel="stylesheet" href="{{ asset('css/fontello.css') }}" />        
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="container-fluid">
+            <div class="container-fluid menu">
+                <div class="navbar-header">
+                    <div id="logo">
+                        <a class="navbar-brand" href="{{ path('/') }}">
+                            <img src="{{ asset('photos/banner.jpg')}}">
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                  <button id="dLabel" type="button" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-cog"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dLabel">
+                      <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-list-alt"></span> Pokaż Dane</a></li>
+                      <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-wrench"></span> Edycja</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                   <div class="col-md-2 col-lg-2 left-block">
+                   {% block left %}
+                        <div id="menu-btn">
+                            <ul class="list-unstyled">
+                                <li><a class="btn btn-primary btn-menu" href="{{ path('/') }}"><i class="icon-users"></i> Wszyscy</a></li>
+                                <li><a class="btn btn-primary btn-menu" href="{{ path('new') }}"><i class="icon-user-add"></i> Dodaj Kontakt</a></li>
+                                <li><a class="btn btn-primary btn-menu" href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</a></li>
+                            </ul>
+                        </div>
+                            <hr>
+                   {% endblock %}
+                   </div>
+                   <div class="col-md-8 col-lg-8 center-block">
+                   {% block center %}{% endblock %}
+                   </div>
+                   <div class="col-md-2 col-lg-2"></div>
+               </div>
+            </div>  
+            {% block javascripts %}
+            
+            {% endblock %}
+        </div>
     </body>
 </html>

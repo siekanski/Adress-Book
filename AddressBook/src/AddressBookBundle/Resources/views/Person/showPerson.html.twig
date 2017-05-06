@@ -1,0 +1,91 @@
+{% extends "::base.html.twig" %}
+
+{% block center %}
+    <div id="person-data">
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+            {% if not person.photo %}
+                <div>
+                    <img width="250px" class="user-img" src="{{asset('photos/blank-user.jpg')}}">
+                </div>
+            {% else %}
+                <div>
+                    <img width="250px" class="user-img" src="{{asset("photos/")}}{{person.photo}}"> 
+                </div>
+            {% endif %}
+            </div>
+            <div class="col-md-8 col-lg-8">
+                <p>Imię: {{ person.name }}</p>
+                <p>Nazwisko: {{ person.surname }}</p>
+                <p>Opis: {{ person.description }}</p>
+                <p>Grupa:
+                    {%for group in person.groups %}
+                        {{group.groupName}} 
+                        <a href="/{{person.id}}/deleteGroup" id="deleteGroup"><span class="glyphicon glyphicon-remove"></span></a>
+                    {%endfor%}
+                    <a href="/{{person.id}}/addToGroup"><span class="glyphicon glyphicon-edit"></span></a>
+                </p>
+                <div class="person-action">
+                    <a href="/{{person.id}}/modify"><span class="glyphicon glyphicon-edit"></span> Edytuj</a>
+                </div>
+                <div class="person-action">
+                    <a href="/addAddress/{{person.id}}"><span class="glyphicon glyphicon-map-marker"></span> Dodaj adres</a>
+                </div>
+                <div class="person-action">
+                    <a href="/addEmail/{{person.id}}"><span class="glyphicon glyphicon-envelope"></span> Dodaj email</a>
+                </div>
+                <div class="person-action">
+                    <a href="/addPhone/{{person.id}}"><span class="glyphicon glyphicon-earphone"></span> Dodaj telefon</a>
+                </div>
+                <div class="person-action">
+                    <a href="/{{person.id}}/delete"><span class="glyphicon glyphicon-remove"></span> Usuń</a>
+                </div>
+            </div>
+        </div>
+        <div class="row person-info">
+            <div class="col-md-4 col-lg-4">
+                {% for address in addresses %}
+                    {% if loop.index > 1 %}<hr>{% endif %}
+                    <h4>Adres {{ loop.index }}</h4>
+                    <p>Miasto: <strong>{{address.city}}</strong></p>
+                    <p>Kod pocztowy: {{address.postcode}}</p>
+                    <p>Ulica: {{address.street}}</p>
+                    <p>Numer: {{address.streetNumber}} 
+                        {% if address.streetNumber2 %}
+                            / {{address.streetNumber2}}
+                        {%endif%}
+                    </p>
+                    <div>
+                        <a href="/modifyAddress/{{address.id}}"><span class="glyphicon glyphicon-pencil"></span> Edytuj adres</a><br>
+                        <a href="/deleteAddress/{{address.id}}/{{person.id}}"><span class="glyphicon glyphicon-trash"></span> Usuń</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 col-lg-4">
+                {% for email in emails %}
+                    {% if loop.index > 1 %}<hr>{% endif %}
+                    <h4>Email {{ loop.index }}</h4>
+                    <p>Adres: {{email.emailAddress}}</p>
+                    <p>Typ: {{email.emailType}}</p>
+                    <div>
+                        <a href="/modifyEmail/{{email.id}}"><span class="glyphicon glyphicon-pencil"></span> Edytuj email</a><br>
+                        <a href="/deleteEmail/{{email.id}}/{{person.id}}"><span class="glyphicon glyphicon-trash"></span> Usuń</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 col-lg-4">
+                {% for phone in phones %}
+                    <h4>Telefon {{ loop.index }}</h4>
+                    <p>Tel: {{phone.number}}</p>
+                    <p>Typ: {{phone.type}}</p>
+                    <div>
+                        <a href="/modifyPhone/{{phone.id}}"><span class="glyphicon glyphicon-pencil"></span> Edytuj telefon</a><br>
+                        <a href="/deletePhone/{{phone.id}}/{{person.id}}"><span class="glyphicon glyphicon-trash"></span> Usuń</a>
+                    </div>
+                    {% if loop.index > 1 %}<hr>{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
